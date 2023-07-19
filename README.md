@@ -108,6 +108,10 @@ Indentation is key, dont use tab!
 `sudo ansible-playbook nginx-playbook.yml` : Runs the playbook
 `sudo ansible web -a "systemctl status nginx"` : Checks if nginx is running in the web
 
+### Creating a playbook for node:
+
+![Alt text](imgs/node-playbook.png)
+
 ## Orchestration with Terraform
 
 Not using AWS cloud formation as this could then only be used on AWS. It is cloud dependent. Terraform is cloud independant and so it can be used on any cloud, local or hybrid. 
