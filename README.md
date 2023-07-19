@@ -214,6 +214,24 @@ This will run the app but because there is no pm2 you cant do anything in the te
         chdir: /home/ubuntu/app/app
 ```
 
+#### Adding in reverse proxy configuration
+
+``` 
+   - name: Install sed
+      apt:
+        name: sed
+        state: present
+
+    - name: Configure reverse proxy in Nginx
+      shell: sudo sed -i 's#try_files $uri $uri/ =404;#proxy_pass http://localhost:3000;#g' /etc/nginx/sites-available/default
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+```
+Add this after the npm install but before the pm2 start.
+
 ## Orchestration with Terraform
 
 Not using AWS cloud formation as this could then only be used on AWS. It is cloud dependent. Terraform is cloud independant and so it can be used on any cloud, local or hybrid. 
