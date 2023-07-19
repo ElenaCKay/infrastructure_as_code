@@ -40,7 +40,7 @@ This is the configuration management tool used heavily in DevOps. It is simple t
 ![Alt text](<imgs/ls of ansible folder.png>)
 
 16. Install tree `sudo apt install tree -y` for a better view
-17. ansible ping command `sudo ansible all -m ping` - doesnt work yet as host file is empty
+17. ansible ping command `sudo ansible all -m ping` - doesnt work yet as host file is empty, -m stands for module
 
 ![Alt text](imgs/ping-command.png)
 
@@ -59,12 +59,54 @@ The ansible_host is the public app ip address.
     
 ![Alt text](imgs/ping-working.png)
 
+Remember that in AWS the public ip address changes so you have to go back into the hosts file when you restart the vms and change the ip addresses:
 
-controller ip: 52.30.95.146
-app ip: 54.155.38.93
-db ip: 54.195.61.33
+controller ip: 3.248.248.187
+app ip: 3.249.252.35
+db ip: 3.249.221.80
 
+Before you can do an update you need to find out the operating system of the node as the different OS have different commands. adhoc commands are used for this. So you dont need to ssh into every instance. It needs sudo permissions for ansible. [Link to adhoc command page](https://docs.ansible.com/ansible/latest/command_guide/intro_adhoc.html)
 
+Example:
+
+`sudo ansible web -a "uname -a"` : -a is argument, this will guve us the os of the web vm. It will first ping to chack if it is running, then it will check if it has access using ssh.
+
+![Alt text](imgs/adhoc-command-uname.png)
+
+`sudo ansible web -a "date"` : Used to check where the vm is running as they can be all over the world - important is different regions have different weekends and times.
+
+`sudo ansible web -a "free"` : how much memory is availble. Important if you need to install things and you need to see if there is enough space
+
+`sudo ansible web -a "la -l"` : checks to see if it has the correct files and dependencies
+
+Find an adhoc command to transfer file from controller to agent.
+
+`sudo ansible web -m ansible.builtin.copy -a "src=~/test.txt dest=~"`
+`sudo ansible web -a "cat test.txt"`
+
+![Alt text](imgs/adhoc-command-copy-file.png)
+
+End goal for today is to get ansible to install and configure things in the app and db vms. 
+
+For the web vm:
+
+- Install nginx
+- Node security group must allow port 80 and port 22 (this is done in the aws portal security group)
+
+### Write a playbook using Yaml
+
+`cd /etc/ansible`
+`sudo nano nginx-playbook.yml`
+
+Lots of devops tools use yaml including ansible. Playbooks are reusable and can be used on as many nodes as you would like.
+A yml file always starts with 3 dashes ---.
+
+Indentation is key, dont use tab!
+
+![Alt text](imgs/yaml-script-web.png)
+
+`sudo ansible-playbook nginx-playbook.yml` : Runs the playbook
+`sudo ansible web -a "systemctl status nginx"` : Checks if nginx is running in the web
 
 ## Orchestration with Terraform
 
