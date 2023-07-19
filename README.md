@@ -108,15 +108,111 @@ Indentation is key, dont use tab!
 `sudo ansible-playbook nginx-playbook.yml` : Runs the playbook
 `sudo ansible web -a "systemctl status nginx"` : Checks if nginx is running in the web
 
-### Creating a playbook for node:
+#### Creating a playbook for node:
 
 ![Alt text](imgs/node-playbook.png)
 
 This installs node to the web vm and git clones the app folder to the vm. I still need to work out how to do the npm install and npm start.
 
+
+#### Playbook with node and npm:
+
 ![Alt text](imgs/node-playbook-with-npm-start.png)
 
 This will run the app but because there is no pm2 you cant do anything in the terminal as it runs.
+
+```
+---
+- hosts: web
+  gather_facts: yes
+  become: true
+
+  tasks:
+    - name: Installing Node.js
+      apt:
+        pkg: nodejs
+        state: present
+
+    - name: Clone GitHub repository
+      git:
+        repo: https://github.com/ElenaCKay/tech241_aparta_app.git
+        dest: /home/ubuntu/app
+        version: main
+
+    - name: Installing npm
+      apt:
+        pkg: npm
+        state: present
+
+    - name: Run npm install
+      npm:
+        path: /home/ubuntu/app/app
+        name: install
+
+    - name: Npm Start
+      command: sudo npm start
+      args:
+        chdir: /home/ubuntu/app/app
+
+```
+
+#### Got it working with pm2:
+
+![Alt text](imgs/node-playbook-with-pm2.png)
+
+```---
+- hosts: web
+  gather_facts: yes
+  become: true
+
+  tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+
+    - name: Upgrade packages
+      apt:
+        upgrade: dist
+
+    - name: Clone GitHub repository
+      git:
+        repo: https://github.com/ElenaCKay/tech241_aparta_app.git
+        dest: /home/ubuntu/app
+        version: main
+
+    - name: Install Node.js
+      get_url:
+        url: https://deb.nodesource.com/setup_12.x
+        dest: /tmp/node_setup.sh
+
+    - name: Run Node.js setup script
+      command: sudo -E bash /tmp/node_setup.sh
+
+    - name: Install Node.js package
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Run npm install
+      npm:
+        path: /home/ubuntu/app/app
+        name: install
+
+    - name: Install PM2 globally using npm
+      npm:
+        name: pm2
+        global: yes
+        state: present
+
+
+    - name: Stop pm2 processes
+      shell: pm2 kill
+
+    - name: Start app with pm2
+      shell: pm2 start app.js
+      args:
+        chdir: /home/ubuntu/app/app
+```
 
 ## Orchestration with Terraform
 
