@@ -112,6 +112,12 @@ Indentation is key, dont use tab!
 
 ![Alt text](imgs/node-playbook.png)
 
+This installs node to the web vm and git clones the app folder to the vm. I still need to work out how to do the npm install and npm start.
+
+![Alt text](imgs/node-playbook-with-npm-start.png)
+
+This will run the app but because there is no pm2 you cant do anything in the terminal as it runs.
+
 ## Orchestration with Terraform
 
 Not using AWS cloud formation as this could then only be used on AWS. It is cloud dependent. Terraform is cloud independant and so it can be used on any cloud, local or hybrid. 
