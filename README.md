@@ -61,9 +61,9 @@ The ansible_host is the public app ip address.
 
 Remember that in AWS the public ip address changes so you have to go back into the hosts file when you restart the vms and change the ip addresses:
 
-controller ip: 3.248.248.187
-app ip: 3.249.252.35
-db ip: 3.249.221.80
+controller ip: 3.252.39.68
+app ip: 34.245.13.204
+db ip: 34.245.78.113
 
 Before you can do an update you need to find out the operating system of the node as the different OS have different commands. adhoc commands are used for this. So you dont need to ssh into every instance. It needs sudo permissions for ansible. [Link to adhoc command page](https://docs.ansible.com/ansible/latest/command_guide/intro_adhoc.html)
 
@@ -107,6 +107,15 @@ Indentation is key, dont use tab!
 
 `sudo ansible-playbook nginx-playbook.yml` : Runs the playbook
 `sudo ansible web -a "systemctl status nginx"` : Checks if nginx is running in the web
+
+Blocker: This will only work if a update and upgrade is carried out first! You can add this in the playbook before installing nginx like so:
+
+```  - name: Update
+    command: sudo apt update -y
+
+  - name: Upgrade
+    command: sudo apt upgrade -y
+```
 
 #### Creating a playbook for node:
 
@@ -278,6 +287,10 @@ Shell command: This task executes a shell command directly on the remote host.
   - In this case, it's the default Nginx site configuration file.
 
 When this task is executed, it will configure Nginx to act as a reverse proxy, forwarding incoming requests to a backend server running on http://localhost:3000. This setup is useful when you have a web application (e.g., a Node.js application) running on localhost:3000, and you want to serve it through Nginx, which can handle additional features like SSL termination, load balancing, and caching.
+
+### Creating playbook for database
+
+
 
 ## Orchestration with Terraform
 

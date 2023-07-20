@@ -1,0 +1,29 @@
+# YAML file starts with --- three dashes
+
+---
+
+# Create a script which works with web vm and installs nginx
+# Which host to perform the task
+
+- hosts: web
+
+# See the logs by gathering facts
+  gather_facts: yes
+
+# admin access
+  become: true
+# add the instructions - install nginx - web
+  tasks:
+
+  - name: Update
+    command: sudo apt update -y
+
+  - name: Upgrade
+    command: sudo apt upgrade -y
+
+  - name: Installing Nginx
+    apt: pkg=nginx state=present
+
+# ensure the status of nginx is actively running
+# adhoc command to check the status
+
