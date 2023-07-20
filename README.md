@@ -290,6 +290,15 @@ When this task is executed, it will configure Nginx to act as a reverse proxy, f
 
 ### Creating playbook for database
 
+- Automate provisioning and configuring
+- Mongodb in db instance
+- install mongodb
+- ensure port 27027 is enabled in sg
+- ensure mongod.conf has required configuration
+- allow app and controller access
+  - provide specific ips (production)
+  - or bind ip = 0.0.0.0:27017 (training)
+- Need to provide the enviroment variable DB_HOST=db-ip:27017/posts in the app
 
 
 ## Orchestration with Terraform
