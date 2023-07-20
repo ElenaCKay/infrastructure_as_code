@@ -342,7 +342,33 @@ Steps:
 
 `sudo ansible db -a "systemctl status mongodb"` - check if it is running
 
-4. `sudo ansible web -a "export DB_HOST=mongodb://34.245.78.113:27017/posts"`
+4. Add the configuration of the bind ip in the mongodb playbook
+
+```  - name: Install sed
+    apt:
+      name: sed
+      state: present
+
+  - name: Configure mongodb.conf bind ip
+    become: true
+    shell: sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongodb.conf
+
+  - name: Restart Mongodb
+    service:
+      name: mongodb
+      state: restarted
+      enabled: yes
+```
+
+5. Add the env variable into the node playbook 
+
+```    - name: Add DB_HOST environment variable to /etc/environment file
+      lineinfile:
+        path: /etc/environment
+        line: 'export DB_HOST="mongodb://34.245.78.113:27017/posts"'
+        state: present
+        create: yes
+```
 
 ## Orchestration with Terraform
 
