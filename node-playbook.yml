@@ -14,6 +14,13 @@
       apt:
         upgrade: dist
 
+    - name: Add DB_HOST environment variable to /etc/environment file
+      lineinfile:
+        path: /etc/environment
+        line: 'export DB_HOST="mongodb://34.245.78.113:27017/posts"'
+        state: present
+        create: yes
+
     - name: Clone GitHub repository
       git:
         repo: https://github.com/ElenaCKay/tech241_aparta_app.git
@@ -37,6 +44,11 @@
       npm:
         path: /home/ubuntu/app/app
         name: install
+
+    - name: Seed database
+      shell: node seeds/seed.js
+      args:
+        chdir: /home/ubuntu/app/app
 
     - name: Install sed
       apt:

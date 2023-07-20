@@ -342,7 +342,7 @@ Steps:
 
 `sudo ansible db -a "systemctl status mongodb"` - check if it is running
 
-4. 
+4. `sudo ansible web -a "export DB_HOST=mongodb://34.245.78.113:27017/posts"`
 
 ## Orchestration with Terraform
 
