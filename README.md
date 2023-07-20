@@ -300,6 +300,49 @@ When this task is executed, it will configure Nginx to act as a reverse proxy, f
   - or bind ip = 0.0.0.0:27017 (training)
 - Need to provide the enviroment variable DB_HOST=db-ip:27017/posts in the app
 
+![Alt text](imgs/overview-steps.png)
+
+Common blockers:
+
+- npm not being friendly - reverse proxy issues - env not persistant - SG rule issues - mongod.conf not configured correctly 
+- If there is an issue and you arent sure what is going wrong you can run the playbook command with -vvv and it will show you what is happening in the background.
+
+Steps:
+
+1. cd etc/ansible
+2. `sudo nano mongodb-playbook.yml`
+3. In here write the playbook
+
+```
+---
+
+# create playbook to install mongodb in db-machine instance
+
+- hosts: db
+  gather_facts: yes
+  become: true
+
+  tasks:
+
+  - name: Update
+    command: sudo apt update -y
+
+  - name: Upgrade
+    command: sudo apt upgrade -y
+
+# Install mongodb
+  - name: Install Mongodb
+    apt: pkg=mongodb state=present
+
+# Ensure db is running
+
+
+# check the status to see if it is running
+```
+
+`sudo ansible db -a "systemctl status mongodb"` - check if it is running
+
+4. 
 
 ## Orchestration with Terraform
 
