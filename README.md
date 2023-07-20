@@ -213,6 +213,28 @@ This will run the app but because there is no pm2 you cant do anything in the te
       args:
         chdir: /home/ubuntu/app/app
 ```
+Explaination of each step:
+
+1. **Update APT cache**: This task uses the `apt` module to update the package manager cache on the remote server.
+
+2. **Upgrade packages**: This task uses the `apt` module again, but this time it performs a distribution upgrade, updating all installed packages to their latest available versions.
+
+3. **Clone GitHub repository**: This task uses the `git` module to clone the specified GitHub repository to the `/home/ubuntu/app` directory on the remote server. The version "main" is used here.
+
+4. **Install Node.js**: This task uses the `get_url` module to download the Node.js setup script from `https://deb.nodesource.com/setup_12.x` and save it as `/tmp/node_setup.sh` on the remote server.
+
+5. **Run Node.js setup script**: This task runs the Node.js setup script using `sudo` and `-E` flag to preserve environment variables. It sets up the Node.js repository on the server.
+
+6. **Install Node.js package**: This task uses the `apt` module to install Node.js on the remote host.
+
+7. **Run npm install**: This task uses the `npm` module to install Node.js dependencies of the web application located in `/home/ubuntu/app/app` directory.
+
+8. **Install PM2 globally using npm**: This task uses the `npm` module to install PM2 globally on the remote host.
+
+9. **Stop pm2 processes**: This task stops all running PM2 processes on the remote host using the `shell` module and the command `pm2 kill`.
+
+10. **Start app with pm2**: This task starts the application using PM2. It runs the command `pm2 start app.js` with the `chdir` option set to `/home/ubuntu/app/app`, indicating the directory where the app.js file is located.
+
 
 #### Adding in reverse proxy configuration
 
@@ -231,6 +253,31 @@ This will run the app but because there is no pm2 you cant do anything in the te
         state: restarted
 ```
 Add this after the npm install but before the pm2 start.
+
+Explanation of the configure line:
+
+1. Name: "Configure reverse proxy in Nginx"
+
+2. The name of the task for identification and logging purposes.
+Shell command: This task executes a shell command directly on the remote host.
+
+3. sudo: The sudo command allows the task to run with administrative privileges, necessary for modifying the Nginx configuration.
+
+4. sed: A stream editor used for filtering and transforming text.
+
+5. -i: The -i option performs in-place editing of the specified file.
+
+6. Pattern and Replacement: 's#try_files $uri $uri/ =404;#proxy_pass http://localhost:3000;#g'
+
+  - This sed command replaces the line containing try_files $uri $uri/ =404; with proxy_pass http://localhost:3000; in the Nginx configuration file.
+  - It sets up a reverse proxy to forward incoming requests to a backend server running on http://localhost:3000.
+  - This is often used to proxy requests to a web application server, such as Node.js, behind Nginx for additional features like SSL termination, load balancing, and caching.
+7. Configuration file: /etc/nginx/sites-available/default
+
+  - The path to the Nginx configuration file that will be modified.
+  - In this case, it's the default Nginx site configuration file.
+
+When this task is executed, it will configure Nginx to act as a reverse proxy, forwarding incoming requests to a backend server running on http://localhost:3000. This setup is useful when you have a web application (e.g., a Node.js application) running on localhost:3000, and you want to serve it through Nginx, which can handle additional features like SSL termination, load balancing, and caching.
 
 ## Orchestration with Terraform
 
