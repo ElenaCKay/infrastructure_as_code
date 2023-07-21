@@ -53,3 +53,16 @@ Terraform is an open-source Infrastructure as Code (IaC) tool developed by Hashi
 
 ![Alt text](imgs/terraform-downloaded.png)
 
+## Infrastructure as Code Overview
+
+![IaC](imgs/terraform/IaC-overview.png)
+
+1. **Terraform Workflow**:
+   - Use Terraform to define and provision the required infrastructure resources in your cloud provider (e.g., AWS, Azure, GCP) using Terraform configuration files.
+   - Terraform ensures that the infrastructure is created and configured according to the defined specifications.
+
+2. **Ansible Workflow**:
+   - Once the infrastructure is provisioned by Terraform, you can use Ansible playbooks to configure and manage the software and settings on the provisioned resources.
+   - Ansible connects to the servers and executes the tasks defined in the playbooks to ensure the desired configurations are applied.
+
+Terraform needs to use the secret keys to be able to access AWS.
