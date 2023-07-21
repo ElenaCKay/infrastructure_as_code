@@ -369,7 +369,3 @@ Steps:
         state: present
         create: yes
 ```
-
-## Orchestration with Terraform
-
-Not using AWS cloud formation as this could then only be used on AWS. It is cloud dependent. Terraform is cloud independant and so it can be used on any cloud, local or hybrid. 
