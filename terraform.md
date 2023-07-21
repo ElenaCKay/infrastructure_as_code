@@ -2,15 +2,29 @@
 
 Not using AWS cloud formation as this could then only be used on AWS. It is cloud dependent. Terraform is cloud independant and so it can be used on any cloud, local or hybrid. 
 
-## Task terraform
+## What is it?
 
-- What is it
-- Why use it and the benefits
-- Who is using it everyone
-- Install terraform in your system 
-- Run terraform --version (check it is there)
-- ensure its installed correctly and env var added to path
-- share the github repo with above steps
+Terraform is an open-source Infrastructure as Code (IaC) tool developed by HashiCorp. It allows users to define and manage infrastructure resources, such as virtual machines, networks, storage, and more, using a declarative configuration language. With Terraform, you can describe your desired infrastructure state in code, and Terraform takes care of provisioning and managing the resources to match that state.
+
+## Why use it and the benefits
+
+1. **Infrastructure as Code (IaC):**
+   Terraform's core benefit lies in its ability to treat infrastructure as code. Infrastructure is defined using human-readable configuration files, which makes it versionable, maintainable, and allows for collaboration across teams. This approach brings consistency and repeatability to infrastructure provisioning and management.
+
+2. **Multi-Cloud and Multi-Provider Support:**
+   Terraform supports various cloud providers (e.g., AWS, Azure, Google Cloud Platform) and on-premises infrastructure. This flexibility allows users to manage resources across multiple cloud providers and maintain a consistent deployment workflow, regardless of the underlying infrastructure.
+
+3. **Declarative Configuration:**
+   Terraform uses a declarative approach, meaning you define the desired state of your infrastructure rather than writing procedural scripts. This makes it easier to understand, manage, and modify infrastructure configurations.
+
+4. **Dependency Management and Resource Graph:**
+   Terraform automatically handles resource dependencies and creates a dependency graph. It ensures resources are provisioned in the correct order, reducing the risk of errors and ensuring the infrastructure is created efficiently.
+
+5. **Change Management and Planning:**
+   Terraform provides a preview of the changes it will apply before executing them. This allows users to review and validate proposed changes, reducing the likelihood of unexpected disruptions in the infrastructure.
+
+6. **State Management:**
+   Terraform keeps track of the state of the managed infrastructure in a state file. This state file is essential for tracking changes and performing updates or modifications to the infrastructure.
 
 
 #### How to download terraform on Windows:
@@ -30,12 +44,12 @@ Not using AWS cloud formation as this could then only be used on AWS. It is clou
      - Select "Edit the system environment variables."
      - Click the "Environment Variables..." button.
      - In the System Variables section, scroll down and find the "Path" variable. Click "Edit."
-     - Click "New," and then add the path to the folder where you extracted the Terraform executable. For example, it might look like: `C:\path\to\terraform`.
+     - Click "New," and then add the path to the folder where you extracted the Terraform executable. For example: `C:\Users\elena\terraform_1.5.3_windows_amd64`.
 
 4. **Verify Installation**:
    - Open a new Command Prompt (or PowerShell) window.
    - Type `terraform --version` and press Enter.
    - If Terraform is correctly installed and added to the system PATH, it will display the version information.
-   - 
+
 ![Alt text](imgs/terraform-downloaded.png)
 
