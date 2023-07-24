@@ -65,4 +65,44 @@ Terraform is an open-source Infrastructure as Code (IaC) tool developed by Hashi
    - Once the infrastructure is provisioned by Terraform, you can use Ansible playbooks to configure and manage the software and settings on the provisioned resources.
    - Ansible connects to the servers and executes the tasks defined in the playbooks to ensure the desired configurations are applied.
 
-Terraform needs to use the secret keys to be able to access AWS.
+Terraform needs to use the secret keys to be able to access AWS. These have been added as enviroment variables on windows. aws_secret_access_key
+
+## Launch ec2 instance using terraform
+
+I created a folder called terraform and a file called main.tf. In this file is the script which will create the ec2 instance when you use the command `terraform init`.
+
+```
+# Provider name
+provider "aws"{
+        # where in aws
+        region = "eu-west-1"
+}
+
+# Launch an ec2 in Ireland
+resource "aws_instance" "app_instance"{
+
+# which machine/OS version etc AMI-id
+  ami = "ami-0943382e114f188e8"
+
+# What type of instance t2-micro
+  instance_type = "t2.micro"
+
+# Is the public ip required?
+  associate_public_ip_address = true
+
+# what would you line to name it tech241-elena-terraform-app
+  tags = {
+       Name = "tech241-elena-terraform-app"
+
+  }
+}
+```
+
+`terraform plan` - checks if there are any errors in the script: 
+
+![Alt text](imgs/terraform/terraform-plan.png)
+
+`terraform apply` - will create the instance
+
+![Alt text](imgs/terraform/terraform-apply.png)
+
