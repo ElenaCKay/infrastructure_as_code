@@ -109,3 +109,22 @@ resource "aws_instance" "app_instance"{
 ## VPC
 
 ![Alt text](imgs/terraform/isolated-vpc.png)
+
+**App instance:**
+
+Ingres:
+- HTTP - TCP - 80 - 0.0.0.0/0
+- SSH - TCP - 22 - 0.0.0.0/0
+- Custom -TCP - 3000 - 0.0.0.0/0
+
+Egres:
+- All traffic 0.0.0.0/0
+
+**DB instance:**
+
+Ingres:
+- SSH - TCP - 22 - 0.0.0.0/0
+- Custom - TCP - 27017 - 0.0.0.0/0
+
+Egres:
+- All traffic 0.0.0.0/0
