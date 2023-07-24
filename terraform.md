@@ -106,3 +106,6 @@ resource "aws_instance" "app_instance"{
 
 ![Alt text](imgs/terraform/terraform-apply.png)
 
+## VPC
+
+![Alt text](imgs/terraform/isolated-vpc.png)
